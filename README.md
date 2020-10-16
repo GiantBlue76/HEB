@@ -23,9 +23,9 @@ typealias MyDependencies = HasApiService & HasLogger
 protocol MyViewControllerFactory {
   func makeSongListViewController(dependencies: MyDependencies) -> UIViewController
 }
-
+````
 The DependencyContainer class can now conform to this protocol and when it instantiates the new view controller, it can simply pass in self.
-
+````
 extension DependencyContainer: MyViewControllerFactory {
   func makeSongListViewControllerFactory(dependencies: MyDependencies) -> UIViewController {
       SongListViewController(dependencies: self)
