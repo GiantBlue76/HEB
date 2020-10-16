@@ -47,3 +47,5 @@ outputs.route
 ````
 It would also be feasible to provide a defined enum type representing the types of view controllers to create and a single factory function would be sufficient.
 
+###[Update] 10/16.2020###
+This app does not utilize storyboards.  I generally refrain from using storyboards.  In a team environment, storyboards can be difficult to deal with involving merge conflicts, and multiple developers working in them.  They are also slow to load and can increase compile time.  The advantage of storyboards and XIBs is they give you a nice, quick visual of the scene or group of scenes.  I prefer doing layout in code.
