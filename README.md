@@ -12,3 +12,34 @@ Unit tests were included for the view model but no UI tests were written.  I wro
 
 I hope this is sufficient for this exercise and thank you to HEB for giving me this opportunity.
 
+[Update] 10/16/2020
+One of the things I touched upon in the comments in the code was the use of the Factory pattern to create view controllers to create less coupling between view controllers.  Without using a separate router or coordinator, there is less flexibility to navigate freely or to provide different ways of presenting the same routing path.  However, for less complex apps, this may not be needed and using a factory is at least a better way of allowing a view controller to not know about the implementation details of a view controller it may route too.
+
+The way this would work would be a protocol defined:
+
+````
+typealias MyDependencies = HasApiService & HasLogger
+
+protocol MyViewControllerFactory {
+  func makeSongListViewController(dependencies: MyDependencies) -> UIViewController
+}
+
+The DependencyContainer class can now conform to this protocol and when it instantiates the new view controller, it can simply pass in self.
+
+extension DependencyContainer: MyViewControllerFactory {
+  func makeSongListViewControllerFactory(dependencies: MyDependencies) -> UIViewController {
+      SongListViewController(dependencies: self)
+  }
+}
+
+Now let's say we get a route message back from the view model that corresponds to this view controller we would simply create it and push it onto the stack.  While the view controller we are navigating FROM still has knowledge of the view controller it's navigating to, we can now more easily test this since our test DependencyContainer can implement the factory however we want, and we can verify that the proper factory method is invoked prior to the routing.
+
+outputs.route
+  .drive(onNext: { [weak self, dependencies] in
+    let vc = dependencies.makeSongListViewController(dependencies: dependencies)
+    self?.navigationController.pushViewController(vc, animated: true)
+  })
+  .disposed(by: bag)
+````
+It would also be feasible to provide a defined enum type representing the types of view controllers to create and a single factory function would be sufficient.
+
