@@ -31,13 +31,13 @@ extension DependencyContainer: MyViewControllerFactory {
       SongListViewController(dependencies: self)
   }
 }
-
+````
 Now let's say we get a route message back from the view model that corresponds to this view controller we 
 would simply create it and push it onto the stack.  While the view controller we are navigating FROM still 
 has knowledge of the view controller it's navigating to, we can now more easily test this since our 
 test DependencyContainer can implement the factory however we want, and we can verify that the 
 proper factory method is invoked prior to the routing.
-
+````
 outputs.route
   .drive(onNext: { [weak self, dependencies] in
     let vc = dependencies.makeSongListViewController(dependencies: dependencies)
