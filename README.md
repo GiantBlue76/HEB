@@ -8,6 +8,7 @@ The app home screen is made up of a table view which has a static set of rows.  
 
 The structure of the code is using a pattern that I learned from one of the RxSwift experts on the RxSwift slack channel.  The view controllers are dumb, and all logic is handled in the "view model", while binding is done in an extension on the view controller.  The view model is simply a free floating function which can be considered the "logic" piece.  This alleviates boilerplate and makes testing much easier.  There is also very little mutable state.  Admittedly, when I was first introduced to this pattern I was a little hesitant since a free function seemed strange.  It shouldn't because it's not much different from a protocol or struct.  They're just functions and this is no different.  The view model itself, even if wrapped in a class or struct should simply be a function that takes input, transforms and emits an output. 
 
-Unit tests were included for the view model but no UI tests were written.  I wrote a few protocol extensions for convenience that I commonly use as well.  
+Unit tests were included for the view model but no UI tests were written.  I wrote a few protocol extensions for convenience that I commonly use. I have put comments throughout the code explaining some of my thoughts as well. 
 
 I hope this is sufficient for this exercise and thank you to HEB for giving me this opportunity.
+
